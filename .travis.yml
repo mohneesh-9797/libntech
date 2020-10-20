@@ -48,6 +48,7 @@ matrix:
       sudo: false
 
 before_install:
+  - sudo apt-get install -y libpcre3 libpcre3-dev
   - chmod ug+x ./travis-scripts/*
   - ./travis-scripts/before_install.sh
 
