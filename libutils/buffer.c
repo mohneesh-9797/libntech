@@ -111,7 +111,17 @@ int BufferCompare(const Buffer *buffer1, const Buffer *buffer2)
             /*
              * C String comparison
              */
-            return strcmp(buffer1->buffer, buffer2->buffer);
+            // Adding this as strcmp gives difference of the buffer values at aarch64 whereas it gives 1 or -1 in other platforms, in case compared char buffer were not same.
+            if (buffer1->buffer == buffer2->buffer)
+            {
+                  return 0;
+            }
+            int compare_result = strcmp(buffer1->buffer, buffer2->buffer);
+            if (compare_result != 0)
+            {
+                  compare_result = compare_result / abs(compare_result);
+            }
+            return compare_result;
         }
         else
         {
