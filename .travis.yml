@@ -1,5 +1,5 @@
 language: c
-dist: xenial
+dist: bionic
 
 addons:
   artifacts:
@@ -10,6 +10,9 @@ addons:
 branches:
   only:
     - master
+    - 3.10.x
+    - 3.12.x
+
 env:
   global:
     - CI_NODE_TOTAL=6
@@ -32,7 +35,9 @@ matrix:
     - os: linux
       env: JOB_TYPE=compile_and_unit_test COVERAGE=no
       compiler: clang
-   
+    - os: osx
+      env: JOB_TYPE=compile_and_unit_test COVERAGE=no
+      sudo: false
     - arch: arm64
       os: linux
       env: JOB_TYPE=compile_and_unit_test_asan
@@ -43,12 +48,11 @@ matrix:
       os: linux
       env: JOB_TYPE=compile_and_unit_test COVERAGE=no
       compiler: clang
-    - os: osx
-      env: JOB_TYPE=compile_and_unit_test COVERAGE=no
-      sudo: false
 
 before_install:
-  - sudo apt-get install -y libpcre3 libpcre3-dev
+  - if [[ "${TRAVIS_CPU_ARCH}" == "arm64" ]]; then
+        sudo apt-get install -y libpcre3 libpcre3-dev;
+    fi
   - chmod ug+x ./travis-scripts/*
   - ./travis-scripts/before_install.sh
 
