@@ -10,9 +10,6 @@ addons:
 branches:
   only:
     - master
-    - 3.10.x
-    - 3.12.x
-
 env:
   global:
     - CI_NODE_TOTAL=6
@@ -35,11 +32,23 @@ matrix:
     - os: linux
       env: JOB_TYPE=compile_and_unit_test COVERAGE=no
       compiler: clang
+   
+    - arch: arm64
+      os: linux
+      env: JOB_TYPE=compile_and_unit_test_asan
+    - arch: arm64
+      os: linux
+      env: JOB_TYPE=compile_and_unit_test_no_deps COVERAGE=no
+    - arch: arm64
+      os: linux
+      env: JOB_TYPE=compile_and_unit_test COVERAGE=no
+      compiler: clang
     - os: osx
       env: JOB_TYPE=compile_and_unit_test COVERAGE=no
       sudo: false
 
 before_install:
+  - sudo apt-get install -y libpcre3 libpcre3-dev
   - chmod ug+x ./travis-scripts/*
   - ./travis-scripts/before_install.sh
 
