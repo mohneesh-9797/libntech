@@ -111,7 +111,11 @@ int BufferCompare(const Buffer *buffer1, const Buffer *buffer2)
             /*
              * C String comparison
              */
-            return strcmp(buffer1->buffer, buffer2->buffer);
+#ifdef __aarch64__
+            return strcmp(buffer1->buffer, buffer2->buffer)/abs(strcmp(buffer1->buffer, buffer2->buffer));
+#else
+	    return strcmp(buffer1->buffer, buffer2->buffer);
+#endif
         }
         else
         {

@@ -62,7 +62,7 @@ size_t StringCopy(const char *const from, char *const to, const size_t buf_size)
     assert(from != NULL);
     assert(to != NULL);
     assert(from != to);
-    assert(buf_size >= 0);
+    assert((signed)buf_size >= 0);
 
     memset(to, 0, buf_size);
     strncpy(to, from, buf_size);
@@ -231,7 +231,11 @@ int StringSafeCompare(const char *const a, const char *const b)
     }
     if (a != NULL && b != NULL)
     {
-        return strcmp(a, b);
+#ifdef __aarch64__
+	    return strcmp(a, b)/ abs(strcmp(a, b));
+#else
+	    return strcmp(a, b);
+#endif
     }
 
     // Weird edge cases where one is NULL:
