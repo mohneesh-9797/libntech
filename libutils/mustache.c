@@ -252,7 +252,6 @@ static Mustache NextTag(const char *input,
         break;
     case '{':
         extra_end = "}";
-	break;
     case '&':
         ret.type = TAG_TYPE_VAR_UNESCAPED;
         ret.content++;
