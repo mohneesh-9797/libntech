@@ -46,6 +46,7 @@ matrix:
       os: linux
       env: JOB_TYPE=compile_and_unit_test_no_deps COVERAGE=no
     - arch: arm64
+      dist: focal
       os: linux
       env: JOB_TYPE=compile_and_unit_test COVERAGE=no
       compiler: clang
